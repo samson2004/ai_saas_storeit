@@ -58,13 +58,13 @@ export async function POST(req: Request) {
     const full_name=first_name;
 
     const user={
-        clerkid:id,
+        clerkId:id,
         fullname:full_name,
         email:email_addresses,
         avatar:image_url
     }
 
-    const newUser=await CreateUser(user);
+    await CreateUser(user);
     
 
     return new Response('Webhook received', { status: 200 })
