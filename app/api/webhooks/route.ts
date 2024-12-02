@@ -65,13 +65,6 @@ export async function POST(req: Request) {
     }
 
     const newUser=await CreateUser(user);
-    if (newUser) {
-        await clerkClient.users.updateUserMetadata(id, {
-          publicMetadata: {
-            userId: newUser._id,
-          },
-        });
-      }
     
 
     return new Response('Webhook received', { status: 200 })
