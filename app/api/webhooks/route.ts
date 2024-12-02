@@ -54,13 +54,14 @@ export async function POST(req: Request) {
 
   //create 
   if(eventType=="user.created"){
-    const {id,fullname,email,avatar}=evt.data;
+    const {id,first_name,email_addresses,image_url}=evt.data;
+    const full_name=first_name;
 
     const user={
         clerkid:id,
-        fullname:fullname,
-        email:email,
-        avatar:avatar??''
+        fullname:full_name,
+        email:email_addresses,
+        avatar:image_url
     }
 
     const newUser=await CreateUser(user);
