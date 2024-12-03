@@ -3,7 +3,13 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 const isProtectedRoute = createRouteMatcher(['/api/webhooks(.*)','/sign-in(.*)','/sign-up(.*)',])
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect()
+  const { userId, redirectToSignIn } = await auth()
+
+  if (!userId && isProtectedRoute(req)) {
+    // Add custom logic to run before redirecting
+
+    return redirectToSignIn()
+  }
 })
 
 export const config = {
