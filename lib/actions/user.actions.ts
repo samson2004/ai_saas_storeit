@@ -28,18 +28,22 @@ export const GetUserbyId=async(userid:string)=>{
     }
 }
 
-export const GetUserbyEmail=async(emailid:string)=>{ //gives entire data
+export const GetUserbyclerkid=async(clerkId:string)=>{ //gives entire data
     try {
         await connecttodatabase();
-        const getuser=await User.findOne({email:emailid});
+        const getuser=await User.findOne({clerkId:clerkId});
 
         return parsejson(getuser);
 
     } catch (error) {
-        handleError(error,"problem with getuserbyemail === user.actions.ts")
+        handleError(error,"problem with getuserbyclerkid === user.actions.ts")
     }
 }
 
+
+
+
+//never used
 export const hashpasswd=async(password:string)=>{  // true or false
     try {
         const saltround=10;

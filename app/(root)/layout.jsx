@@ -7,7 +7,13 @@ import homepagenavitems from '@/constants';
 import { SignedIn,SignedOut } from '@clerk/nextjs';
 import { UserButton } from '@clerk/nextjs';
 import { redirect, usePathname } from 'next/navigation';
+import UploadForm from '@/components/shared/uploadForm';
+
+
+
 const HomePagelayout =({children}) => {
+
+ 
   const handlesignin=()=>{
     redirect('/sign-in')
   }
@@ -28,9 +34,7 @@ const HomePagelayout =({children}) => {
             </div>
         </div>
         <div className='flex'>
-            <Button className='bg-brand rounded-xl h-[40px] hover:bg-brand-100'>
-                <Image src={'/assets/icons/upload.svg'} width={18} height={18} alt='share-upload'/>
-                upload</Button>
+            <UploadForm />
             <Button className='bg-white hover:bg-white border-none shadow-none'>
                  <a href="/sign-up">
                   <Image src={'/assets/icons/logout.svg'} width={24} height={24} alt='logout' className='ml-3'/>

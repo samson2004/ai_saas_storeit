@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(auth)/auth/sign-up/page.jsx", "app/(scrap)/page.jsx", "components/AuthForm.jsx", "app/(root)/layout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(auth)/auth/sign-up/page.jsx", "app/(scrap)/page.jsx", "components/shared/AuthForm.jsx", "app/(root)/layout.jsx", "app/api/fileuploader/route.ts"],
   "exclude": ["node_modules"]
 }
