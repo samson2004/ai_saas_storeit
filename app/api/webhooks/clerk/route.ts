@@ -4,6 +4,7 @@ import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
 import { CreateUser } from '@/lib/actions/user.actions'
 import { NextResponse } from 'next/server'
 
+
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
 
@@ -65,10 +66,19 @@ export async function POST(req: Request) {
         avatar:image_url
     }
 
-    await CreateUser(user);
-    
+    const  newuser=await CreateUser(user);
+    const client=await clerkClient();
 
-    return NextResponse.json({ message: "OK", user: user });
+ if(newuser){
+    await client.users.updateUserMetadata(id,{
+      publicMetadata:{
+        userid:newuser._id
+      }
+    });
+  
+ }
+
+    return NextResponse.json({ message: "OK", user: newuser });
   }
 
   

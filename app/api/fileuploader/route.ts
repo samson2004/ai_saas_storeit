@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 import {join} from 'path';
 
 
-
+// naming convention for uploads= date.now + random number 1E9 + filename
 
 export const POST=async(req:NextRequest,res:NextResponse)=>{
   if(req.method=='POST'){
@@ -15,7 +15,8 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
     const bytes=await file.arrayBuffer();
     const buffer=Buffer.from(bytes);
     
-    const path=join(process.cwd(),'/public',file.name);
+    const referenceidforfile= Date.now()+ '-' + Math.round(Math.random() * 1E9)
+    const path=join(process.cwd(),'/uploads',referenceidforfile+'-'+file.name);
     await writeFile(path,buffer);
     console.log(`open this file in ${path}`);
     return NextResponse.json({message:'file reached middleware'},{status:200});
