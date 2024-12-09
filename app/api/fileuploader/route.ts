@@ -6,7 +6,7 @@ import {join} from 'path';
 
 // naming convention for uploads= date.now + random number 1E9 + filename
 
-export const POST=async(req:NextRequest,res:NextResponse)=>{
+export const POST=async(req:NextRequest)=>{
   if(req.method=='POST'){
     const formData = await req.formData(); 
     const file = formData.get('file') as unknown as File; 
