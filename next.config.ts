@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
   },
   // This serves the uploaded files as static assets
   staticPageGenerationTimeout: 60,
+
+  experimental: {
+    // Ensure you're supporting middleware if using experimental features
+    middlewarePrefetch: 'strict',
+  },
 };
 
 export default nextConfig;

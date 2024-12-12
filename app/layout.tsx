@@ -1,9 +1,5 @@
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
 } from '@clerk/nextjs'
 import type { Metadata } from "next";
 import "./globals.css";
@@ -37,3 +33,4 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+// publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}

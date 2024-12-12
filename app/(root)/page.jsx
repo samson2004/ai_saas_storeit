@@ -1,13 +1,23 @@
-import { getAuth } from '@clerk/nextjs/server';
+import { getclerkmetadata } from '@/lib/actions/user.actions';
+import {  currentUser } from '@clerk/nextjs/server';
 import React from 'react';
+const DashboardPage =async() => {
 
-const DashboardPage =() => {
-  // const { userId } =getAuth();
-  
+  const user=await currentUser();
+
+  if(!user) return null;
+  console.log(user);
+
+  // const userId=await getclerkmetadata();
+
   return (
-    <div>
-      <h1>Welcome, user {0?'1':'0'}</h1>
+    <>
+      <div>
+      <h1>Welcome 
+        {user}
+      </h1>
     </div>
+    </>
   );
 };
 

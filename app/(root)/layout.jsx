@@ -13,6 +13,10 @@ import UploadForm from '@/components/shared/uploadForm';
 
 const HomePagelayout =({children}) => {
 
+
+  const handlesignout=()=>{
+    redirect('/sign-up')
+  }
  
   const handlesignin=()=>{
     redirect('/sign-in')
@@ -35,10 +39,9 @@ const HomePagelayout =({children}) => {
         </div>
         <div className='flex'>
             <UploadForm />
-            <Button className='bg-white hover:bg-white border-none shadow-none'>
-                 <a href="/sign-up">
+            <Button className='bg-white hover:bg-white border-none shadow-none' onClick={handlesignout}>
+                 
                   <Image src={'/assets/icons/logout.svg'} width={24} height={24} alt='logout' className='ml-3'/>
-                 </a>
             </Button>
         </div>
       </section>

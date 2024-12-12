@@ -1,10 +1,15 @@
 'use server';
 
+import { revalidatePath } from "next/cache";
 import User from "../Mongodb/models/user.model";
 import { connecttodatabase } from "../Mongodb/mongoose"
 import { handleError, parsejson } from "../utils"
 import bcrypt from 'bcrypt';
+import { auth } from "@clerk/nextjs/server";
 //parsejson only returns./ doesn't console-log
+
+
+
 
 export const CreateUser=async(user:any)=>{
     try {
@@ -15,6 +20,54 @@ export const CreateUser=async(user:any)=>{
 
     } catch (error) {
         handleError(error,"problem with createuser === user.actions.ts  ")
+    }
+}
+
+export const UpdateUser=async(clerkId:string,user:any)=>{
+    try {
+        await connecttodatabase();
+
+        const updateduser=await User.findOneAndUpdate({clerkId},user,{new:true,});
+        if (!updateduser) throw new Error("User update failed");
+
+        return parsejson(updateduser);
+    } catch (error) {
+        handleError(error,"problem with UpdateUser === user.actions.ts")
+    }
+}
+
+export const deleteUser=async(clerkId:string)=>{
+    try {
+        await connecttodatabase();
+
+        const userToDelete = await User.findOne({ clerkId });
+
+    if (!userToDelete) {
+      throw new Error("User not found");
+    }
+
+    // Delete user
+    const deletedUser = await User.findByIdAndDelete(userToDelete._id);
+    revalidatePath("/");
+
+    return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+    } catch (error) {
+        handleError(error,"problem with deleteuser === user.actions.ts")
+    }
+}
+
+
+
+
+
+
+export const getclerkmetadata=async()=>{
+    try {
+        const Auth=await auth();
+        console.log(Auth);
+        return Auth;
+    } catch (error) {
+        handleError(error,'problem in getting clerk-userid === user.actions.ts');
     }
 }
 

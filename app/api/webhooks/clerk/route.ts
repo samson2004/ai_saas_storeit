@@ -1,7 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
-import { CreateUser } from '@/lib/actions/user.actions'
+import { CreateUser,UpdateUser,deleteUser } from '@/lib/actions/user.actions'
 import { NextResponse } from 'next/server'
 
 
@@ -48,8 +48,6 @@ export async function POST(req: Request) {
     })
   }
 
-  // Do something with payload
-  // For this guide, log payload to console
   const { id } = evt.data
   const eventType = evt.type
   console.log(id,eventType);
@@ -65,14 +63,13 @@ export async function POST(req: Request) {
         email:email_addresses[0].email_address,
         avatar:image_url
     }
-
     const  newuser=await CreateUser(user);
     const client=await clerkClient();
 
  if(newuser){
     await client.users.updateUserMetadata(id,{
       publicMetadata:{
-        userid:newuser._id
+        userId:newuser._id
       }
     });
   
@@ -81,5 +78,36 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: newuser });
   }
 
+  //update
+  if (eventType == "user.updated") {
+    const {id,first_name,email_addresses,image_url}=evt.data;
+    const full_name=first_name;
+
+    const user={
+      clerkId:id,
+      fullname:full_name,
+      email:email_addresses[0].email_address,
+      avatar:image_url
+  }
   
-}
+    const updatedUser = await UpdateUser(id, user);
+  
+    return NextResponse.json({ message: "OK", user: updatedUser });
+  }
+  
+  // DELETE
+  if (eventType == "user.deleted") {
+    const { id } = evt.data;
+  
+    const deletedUser = await deleteUser(id!);
+  
+    return NextResponse.json({ message: "OK", user: deletedUser });
+  }
+  
+    console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
+    console.log('Webhook body:', body)
+    
+    
+    return NextResponse.json({ message: "OK", user: "deleted !" });
+    
+  }
