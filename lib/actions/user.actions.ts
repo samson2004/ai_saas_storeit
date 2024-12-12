@@ -61,15 +61,6 @@ export const deleteUser=async(clerkId:string)=>{
 
 
 
-export const getclerkmetadata=async()=>{
-    try {
-        const Auth=await auth();
-        console.log(Auth);
-        return Auth;
-    } catch (error) {
-        handleError(error,'problem in getting clerk-userid === user.actions.ts');
-    }
-}
 
 export const GetUserbyId=async(userid:string)=>{
     try {

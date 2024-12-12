@@ -1,13 +1,19 @@
 'use client';
-import { useParams } from 'next/navigation';
 import React from 'react'
-import { useState,useEffect } from 'react';
-import { GetUserbyId } from '@/lib/actions/user.actions';
+import { useUser } from '@clerk/nextjs';
 
 const OthersPage = () => {
+  const {user}=useUser();
+  console.log(user)
   return (
-    <div>OthersPage for {}</div>
-  )
+    <>
+      <div>
+      <h1>Welcome
+        {user.id}
+      </h1>
+    </div>
+    </>
+  );
 }
 
 export default OthersPage
