@@ -14,8 +14,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from '../ui/button';
 import Image from 'next/image';
+import { useUser } from '@clerk/nextjs';
+import { GetUserbyclerkid } from '@/lib/actions/user.actions';
 
-const UploadForm = () => {
+const UploadForm = ({_id}) => {
+
+  console.log(_id);
   const [temp, setTemp] = useState(false); // State to toggle the dialog
   const [file, setFile] = useState(null); // State to hold the selected file
   const [message, setMessage] = useState(''); // State to show messages
@@ -37,7 +41,8 @@ const UploadForm = () => {
     }
 
     const formData = new FormData();
-    formData.append('file', file); // Add file to FormData
+    formData.append('file', file);
+    formData.append('id',_id); // Add file to FormData
     try {
       console.log('log before post-x-',file);
       // const response =

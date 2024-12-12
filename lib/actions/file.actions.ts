@@ -5,14 +5,7 @@ import { connecttodatabase } from "../Mongodb/mongoose";
 import { handleError, parsejson } from "../utils";
 
 
-export const uploadfile=async(file:{
-        userid:string,
-        filereferenceid:string,
-        filename:string,
-        filepath:string,
-        size:number,
-        mimetype:string       
-})=>{
+export const uploadfile=async(file:any)=>{
     try {
         await connecttodatabase();
 
