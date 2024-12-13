@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Input } from "@/components/ui/input";
 import { Button } from '@/components/ui/button';
-import homepagenavitems from '@/constants';
+import {homepagenavitems} from '@/constants';
 import { SignedIn, SignedOut, useUser } from '@clerk/nextjs';
 import { UserButton } from '@clerk/nextjs';
 import { redirect, usePathname } from 'next/navigation';
@@ -88,17 +88,17 @@ const HomePagelayout = ({ children }) => {
               <UserButton showName />
             </div>
           </div>
-          <section className="flex-1 px-6 pt-6 m-6 bg-gray-100 rounded-3xl">{children}</section>
+          <section className="flex-1 px-6 pt-6 m-6 pb-6 bg-gray-100 rounded-3xl">{children}</section>
         </div>
       </SignedIn>
-
-      <div className="w-full">
-        <div className="ml-96">
-          <SignedOut>
-            <Button onClick={handlesignin}>Click to sign in</Button>
-          </SignedOut>
+      <SignedOut>
+      <div className="w-full ">
+        <div className="ml-96">          
+            <Button onClick={handlesignin}>Click to sign in</Button>         
         </div>
       </div>
+    </SignedOut>
+
     </div>
   );
 };
