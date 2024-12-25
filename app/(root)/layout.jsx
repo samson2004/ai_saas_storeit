@@ -74,7 +74,7 @@ const HomePagelayout = ({ children }) => {
                     <li className={`px-5 py-3 mb-5 rounded-3xl font-semibold ${isactive ? "bg-brand text-white shadow-md" : "bg-white"}`}>
                       <div className="flex items-start justify-start">
                         <Image src={navitem.src} width={navitem.width} height={navitem.height} alt="dashboard" className="h-[30px] w-[30px] mr-3" />
-                        <a href={navitem.link}>{navitem.name}</a>
+                        <a href={navitem.link} className='pt-1'>{navitem.name}</a>
                       </div>
                     </li>
                   </ul>

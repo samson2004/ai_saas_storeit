@@ -25,7 +25,7 @@ export const POST=async(req:NextRequest)=>{
     const buffer=Buffer.from(bytes);
     
     const referenceidforfile= Date.now()+ '-' + Math.round(Math.random() * 1E9)
-    const path=join(process.cwd(),'/uploads',referenceidforfile+'-'+file.name);
+    const path=join(process.cwd(),'/public',referenceidforfile+'-'+file.name);
     await writeFile(path,buffer);
     console.log(`open this file in ${path}`);
     // {userid,filereferenceid,filename,filepath,size,minetype}

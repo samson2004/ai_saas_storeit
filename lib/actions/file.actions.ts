@@ -28,3 +28,14 @@ export const getUserfiledataby_id=async(userid:string)=>{
         handleError(error,'Problem with getUserfiledataby_id ===file.actions.ts')
     }
 }
+
+export const Updatefilename=async(referenceid:string,file:any)=>{
+    try {
+        await connecttodatabase();
+
+        const rename=await FileCollection.findOneAndUpdate({referenceid},file,{new:true});
+        if(rename)return true; // true - successfully updated //   null/error/false 
+    } catch (error) {
+        handleError(error,'Problem with Updatefilename ===file.actions.ts')
+    }
+}

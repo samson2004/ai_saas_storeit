@@ -1,6 +1,8 @@
 'use client';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,12 +19,12 @@ import Image from 'next/image';
 import { useUser } from '@clerk/nextjs';
 import { GetUserbyclerkid } from '@/lib/actions/user.actions';
 
-const UploadForm = ({_id}) => {
-
-  console.log(_id);
-  const [temp, setTemp] = useState(false); // State to toggle the dialog
-  const [file, setFile] = useState(null); // State to hold the selected file
-  const [message, setMessage] = useState(''); // State to show messages
+const UploadForm = ({ _id }) => {
+  const [temp, setTemp] = useState(false);
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
+  const [progressValue, setProgressValue] = useState(0);
+  const [showProgressPopover, setShowProgressPopover] = useState(false);
 
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -42,30 +44,30 @@ const UploadForm = ({_id}) => {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('id',_id); // Add file to FormData
+    formData.append('id', _id);
     try {
-      console.log('log before post-x-',file);
-      // const response =
-       await axios.post('/api/fileuploader', formData,
-        {
+      await axios.post('/api/fileuploader', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    );
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          console.log(percentCompleted);
+          setShowProgressPopover(true);
+          setProgressValue(percentCompleted);
 
-      // if (response.status === 200) {
-      //   const data = response.data;
-      //   console.log('Uploaded file details:', data);
-      //   setFile(null); // Reset the file after successful upload
-      // } else {
-      //   console.error(response.data.error);
-      // }
+          if (percentCompleted === 100) {
+            setShowProgressPopover(false);
+          }
+        },
+      });
     } catch (error) {
       console.error('Error uploading file:', error.response?.data || error.message);
     }
 
-    setTemp(false); // Close the dialog
+    setTemp(false);
   };
 
   const cancelUpload = () => {
@@ -79,12 +81,12 @@ const UploadForm = ({_id}) => {
     <div>
       <AlertDialog>
         <AlertDialogTrigger>
-          <div className='bg-brand px-4 text-white  h-[40px] hover:bg-brand-100 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'>
+          <div className="shadow-md bg-brand px-4 text-white h-[40px] hover:bg-brand-100 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0">
             <Image
               src={'/assets/icons/upload.svg'}
               width={18}
               height={18}
-              alt='upload'
+              alt="upload"
             />
             Upload
           </div>
@@ -94,25 +96,32 @@ const UploadForm = ({_id}) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Upload Your File</AlertDialogTitle>
             <AlertDialogDescription>
-            <form action="/upload" method="post" enctype="multipart/form-data">
-              <input
-                type="file"
-                onChange={onFileChange}
-                method='post'
-                // encType="multipart/form-data"
-                accept="*/*" // Add specific file types if needed
-              />
+              <form action="/upload" method="post" encType="multipart/form-data">
+                <input
+                  type="file"
+                  onChange={onFileChange}
+                  accept="*/*"
+                />
               </form>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
+          {/* {uploadFile} */}
             <AlertDialogCancel onClick={cancelUpload}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={uploadFile}>Upload</AlertDialogAction>
+            <AlertDialogAction onClick={()=>{
+              uploadFile();
+              toast("File upload was successfull",{
+                description:new Date(Date.now()).toUTCString(),
+                action:{
+                  label:'View',
+                  onClick:()=>console.log('take me there')
+                }
+              })
+            }}>Upload</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
-      {message && <p className="text-center mt-4">{message}</p>}
+      {message && <AlertDialogDescription className="text-center mt-4">{message}</AlertDialogDescription>}
     </div>
   );
 };
