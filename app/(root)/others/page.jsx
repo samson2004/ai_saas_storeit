@@ -6,97 +6,102 @@ import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import { filetype } from '@/constants';
 import Rightclick from '@/components/shared/Rightclick';
-const FilePage = () => {
 
+const FilePage = () => {
   const { user, isLoaded } = useUser();
   const [userdata, setuserdata] = useState(null);
   const [userfiledata, setuserfiledata] = useState([]);
-  const [imageTotalSize, setImageTotalSize] = useState(0);
   const [othersTotalSize, setOthersTotalSize] = useState(0);
 
   useEffect(() => {
     if (!isLoaded || !user) return;
 
-    const getuserdata = async () => {
+    const fetchData = async () => {
       try {
-        const getuser = await GetUserbyclerkid(user.id);
-        if (getuser) {
-          setuserdata(getuser);
-
-          const listoffiles = await getUserfiledataby_id(getuser._id);
-          if (listoffiles) setuserfiledata(listoffiles);
+        const fetchedUser = await GetUserbyclerkid(user.id);
+        if (fetchedUser) {
+          setuserdata(fetchedUser);
+          const files = await getUserfiledataby_id(fetchedUser._id);
+          if (files) setuserfiledata(files);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    getuserdata();
+    fetchData();
   }, [isLoaded, user]);
 
-  
   useEffect(() => {
-    const totalSizeMB = userfiledata
-      .filter(
-        (item) =>
-          !filetype.images.includes(item.mimetype) &&
-          !filetype.documents.includes(item.mimetype) &&
-          !filetype.media.includes(item.mimetype)
-      )
-      .reduce((sum, item) => sum + item.size / 1000000, 0);
+    const calculateOtherFilesSize = () => {
+      const totalSizeMB = userfiledata
+        .filter(
+          (file) =>
+            !filetype.images.some((item)=>item.type==file.mimetype) &&
+            !filetype.documents.some((item)=>item.type==file.mimetype) &&
+            !filetype.media.some((item)=>item.type==file.mimetype)
+        )
+        .reduce((sum, file) => sum + file.size / 1000000, 0);
 
-    setOthersTotalSize(Math.floor(totalSizeMB * 100) / 100);
+      setOthersTotalSize(Math.floor(totalSizeMB * 100) / 100);
+    };
+
+    calculateOtherFilesSize();
   }, [userfiledata]);
 
   return (
-      <div>
-        <h1 className='text-4xl font-semibold'>
-            Others
-          </h1>
-          <div className='flex justify-between'>
-            <p>Total: {othersTotalSize} MB</p>
-            <div className='flex items-center gap-5'>
-              <p>Sort by</p>
-              <div className='w-[80px] h-[40px] bg-white rounded-xl'></div>
-            </div>
-          </div>
-    
-        <div className='grid grid-cols-4 justify-start gap-5 mt-5 grid-rows-3'>
-          {userfiledata.map((item, index) => {
-            if (
-              !filetype.images.includes(item.mimetype) &&
-              !filetype.documents.includes(item.mimetype) &&
-              !filetype.media.includes(item.mimetype)
-            ) {
-              const datestr = item.uploadedAt;
-              const date = new Date(datestr);
-              const readabledate = date.toLocaleString('en-US', {
-                dateStyle: 'long',
-                timeStyle: 'short',
-                timeZone: 'UTC',
-              });
-              const filesize = item.size / 1000000;
-              const correctfilesize = Math.floor(filesize * 100) / 100;
+    <div>
+      <h1 className="text-4xl font-semibold">Others</h1>
+      <div className="flex justify-between">
+        <p>Total: {othersTotalSize} MB</p>
+        <div className="flex items-center gap-5">
+          <p>Sort by</p>
+          <div className="w-[80px] h-[40px] bg-white rounded-xl"></div>
+        </div>
+      </div>
 
-              return (
-                <div key={item._id} className='w-fit h-[193px] bg-white rounded-xl p-5'>
-                  <div className='flex justify-between p-3 items-start'>
-                    <div className='p-4'>
-                      <div className='w-[60px] h-[60px] rounded-full bg-red'></div>
-                      <p className='text-sm font-semibold mt-2'>{item.filename}</p>
-                      <p className='font-light'>{readabledate}</p>
+      <div className="grid grid-cols-4 gap-5 mt-5">
+        {userfiledata.map((file) => {
+          if (
+            !filetype.images.some((item)=>item.type==file.mimetype) &&
+            !filetype.documents.some((item)=>item.type==file.mimetype) &&
+            !filetype.media.some((item)=>item.type==file.mimetype)
+          ) {
+            const uploadDate = new Date(file.uploadedAt).toLocaleString('en-US', {
+              dateStyle: 'long',
+              timeStyle: 'short',
+              timeZone: 'UTC',
+            });
+
+            const fileSizeMB = Math.floor((file.size / 1000000) * 100) / 100;
+
+            return (
+              <div key={file._id} className="w-fit h-fit bg-white rounded-xl ">
+                <div className="flex justify-between p-3 items-start">
+                  <div className="p-4">
+                    <div className="w-[40px] h-[50px]">
+                      <Image
+                        src="/assets/images/Othersfile.png"
+                        width={40}
+                        height={50}
+                        alt="Other file type"
+                        className=""
+                      />
                     </div>
-                    <div className='mt-2'>
-                      <Rightclick userdata={userdata} filedata={item}/>
-                      <p className='mt-2 text-sm'>{correctfilesize} MB</p>
-                    </div>
+                    <p className="text-sm font-semibold mt-2">{file.filename}</p>
+                    <p className="font-light">{uploadDate}</p>
+                  </div>
+                  <div className="mt-2">
+                    <Rightclick userdata={userdata} filedata={file} />
+                    <p className="mt-2 text-sm">{fileSizeMB} MB</p>
                   </div>
                 </div>
-              );
-            }
-          })}
-        </div>
-    
+              </div>
+            );
+          }
+          return null; // Ensure undefined items are excluded
+        })}
+      </div>
     </div>
   );
 };

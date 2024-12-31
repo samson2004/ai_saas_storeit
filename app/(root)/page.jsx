@@ -50,7 +50,7 @@ const DashboardPage =() => {
       }
     
       const availableStorageInGB=((totalStorage)-(fileStorageInB))/(1024*1024*1024); // 5 GB in bytes
-      console.log("available storage:",availableStorageInGB);
+      // console.log("available storage:",availableStorageInGB);
       return availableStorageInGB;
     };
       
@@ -66,7 +66,7 @@ const DashboardPage =() => {
           <div className='rounded-3xl  bg-brand mx-24 shadow-2xl '>
             <Availablespace space={getAvailableStorage(userfiledata)} />
             </div>
-            <Navitemdashboardelements />
+            <Navitemdashboardelements userdata={userdata} userfiledata={userfiledata} />
         </div>
         <div className='bg-white rounded-3xl shadow-lg '>
           <Recentfilesection ud={userdata} ufd={userfiledata} />

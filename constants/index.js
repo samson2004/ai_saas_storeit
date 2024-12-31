@@ -1,22 +1,25 @@
 export const filetype = {
-    documents: [
-      'application/pdf',       // PDF
-      'application/msword',    // .doc
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
-      'text/plain'    , // .txt
-    ],
+  documents: [
+    { type: 'application/pdf', image: '/assets/images/file-pdf.png' }, // PDF
+    { type: 'application/msword', image: '/assets/images/file-doc.png' }, // .doc
+    { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', image: '/assets/images/file-docx.png' }, // .docx
+    { type: 'text/plain', image: '/assets/images/file-txt.png' }, // .txt
+  ],
     
-    images: [
-      'image/jpeg',            // .jpg, .jpeg
-      'image/png',             // .png
-      'image/gif'              // .gif
-    ],
+  images: [
+    { type: 'image/jpeg', image: '/public/images/jpeg-icon.png' }, // .jpg, .jpeg
+    { type: 'image/png', image: '/public/images/png-icon.png' }, // .png
+    { type: 'image/gif', image: '/public/images/gif-icon.png' }, // .gif
+  ],
   
-    media: [
-      'audio/mpeg',            // .mp3
-      'video/mp4'              // .mp4
-    ]
+
+  media: [
+    {type:'audio/mpeg',image:'/assets/images/Music.png'},         // .mp3
+    {type:'video/mp4',image:'/assets/images/Video.png'}              // .mp4
+  ]
   };
+
+
 
 export const filetypecolor={
   documents:'bg-brand-100',
@@ -35,17 +38,17 @@ export const homepagenavitems=[
   },
   {
       src:'/assets/icons/documents.svg',
-      width:24,
+      width:24, 
       height:24,
       name:'Documents',
       link:'/documents',
       mimetype:{
         documents: [
-        'application/pdf',       // PDF
-        'application/msword',    // .doc
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
-        'text/plain'             // .txt
-      ]},
+          { type: 'application/pdf', image: '/public/images/pdf-icon.png' }, // PDF
+          { type: 'application/msword', image: '/public/images/doc-icon.png' }, // .doc
+          { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', image: '/public/images/docx-icon.png' }, // .docx
+          { type: 'text/plain', image: '/public/images/txt-icon.png' }, // .txt
+        ],},
       color:'bg-brand',
       shadowcolor:'shadow-sm shadow-red'
   },
@@ -57,10 +60,10 @@ export const homepagenavitems=[
       link:'/images',
       mimetype:{
         images: [
-        'image/jpeg',            // .jpg, .jpeg
-        'image/png',             // .png
-        'image/gif'              // .gif
-      ]},
+          { type: 'image/jpeg', image: '/public/images/jpeg-icon.png' }, // .jpg, .jpeg
+          { type: 'image/png', image: '/public/images/png-icon.png' }, // .png
+          { type: 'image/gif', image: '/public/images/gif-icon.png' }, // .gif
+        ],},
       color:'bg-blue',
       shadowcolor:'shadow-sm shadow-blue'
   },
@@ -72,8 +75,8 @@ export const homepagenavitems=[
       link:'/media',
       mimetype: {
         media: [
-        'audio/mpeg',            // .mp3
-        'video/mp4'              // .mp4
+        {type:'audio/mpeg',image:'/public/assets/images/Music.png'},         // .mp3
+        {type:'video/mp4',image:'/public/assets/images/Video.png'}              // .mp4
       ]},
       color:'bg-green',
       shadowcolor:'shadow-sm shadow-green'
@@ -84,7 +87,7 @@ export const homepagenavitems=[
       height:24,
       name:'Others',
       link:'/others',
-      color:'bg-violet-400',
+      color:'bg-violet-500',
       shadowcolor:'shadow-sm shadow-violet-500/50'
   }
 

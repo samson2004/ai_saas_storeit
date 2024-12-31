@@ -8,22 +8,20 @@ import Image from 'next/image';
 const Recentfilesection = ({ ud,ufd }) => { 
 
   function getfilemimetypeimage(mimetype) {
-    if (filetype.documents.includes(mimetype)) {
-      return ['/assets/icons/documents.svg',"bg-brand"];
+    if (filetype.documents.some(file => file.type === mimetype)) {
+      return ['/assets/icons/documents.svg', "bg-brand"];
     }
-    if (filetype.images.includes(mimetype)) {
-      return ['/assets/icons/images.svg','bg-blue'];
+    if (filetype.images.some(file => file.type === mimetype)) {
+      return ['/assets/icons/images.svg', 'bg-blue'];
     }
-    if (filetype.media.includes(mimetype)) {
-      return ['/assets/icons/video.svg','bg-green'];
+    if (filetype.media.some(file => file.type === mimetype)) {
+      return ['/assets/icons/video.svg', 'bg-green'];
     }
-    else{
-      return ['/assets/icons/others.svg','bg-violet-500'];
-    }
+    return ['/assets/icons/others.svg', 'bg-violet-500'];
   }
 
   return (
-    <div className="p-10">
+    <div className="p-10 w-[680px]">
       <h1 className="text-2xl font-semibold mb-5">Recent files uploaded</h1>
         <div className=''>
         <ScrollArea className='h-[550px]'>
