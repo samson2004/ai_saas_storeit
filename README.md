@@ -42,5 +42,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ![storeit-document-rightclick](https://github.com/user-attachments/assets/385eff0b-fe91-4e07-8bc6-c8689ab9b085)
 ![storeit-rename](https://github.com/user-attachments/assets/1bca0684-d34c-42e9-b610-5619a9b41d95)
 ![storeit-detail](https://github.com/user-attachments/assets/f61afa96-45a4-472e-aea1-41bf3f9efaf2)
-![storeit-sharefile](https://github.com/user-attachments![storeit-trash](https://github.com/user-attachments/assets/ad008435-588d-4e3e-aa04-494581d03cff)
+![storeit-sharefile](https://github.com/user-attachments
+![storeit-trash](https://github.com/user-attachments/assets/ad008435-588d-4e3e-aa04-494581d03cff)
 /assets/eae5c304-84aa-4335-92a8-3bcf95a00864)
