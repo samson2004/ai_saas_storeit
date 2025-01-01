@@ -57,6 +57,18 @@ export const deleteUser=async(clerkId:string)=>{
 }
 
 
+export const GetUserbyemail=async(email:string)=>{
+    try {
+        await connecttodatabase();
+
+        const getuserbyemail=await User.findOne(({email:email}));
+        return parsejson(getuserbyemail);
+        
+    } catch (error) {
+        handleError(error,'Problem with GetUserbyemail === user.actions.ts')
+    }
+}
+
 
 
 

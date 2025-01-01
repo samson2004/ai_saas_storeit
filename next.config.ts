@@ -17,6 +17,15 @@ const nextConfig: NextConfig = {
     // Ensure you're supporting middleware if using experimental features
     middlewarePrefetch: 'strict',
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

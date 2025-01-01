@@ -12,7 +12,7 @@ import {
 import Rename from '@/components/shared/Rename';
 import Movetotrash from '@/components/shared/Movetotrash';
 import Detail from '@/components/shared/Detail';
-
+import Share from '@/components/shared/Share';
 
 
 import { Button } from "@/components/ui/button"
@@ -39,6 +39,10 @@ const Rightclick = ({ userdata, filedata }) => {
   const [showdetail,setshowdetail]=useState(false);
   const [detailclick,setdetailclick]=useState(false);
 
+  const [showshare,setshowshare]=useState(false);
+  const [shareclick,setshareclick]=useState(false);
+
+
   function onclose(){
     setshowrename(false);
     setrenameclick(false);
@@ -46,6 +50,8 @@ const Rightclick = ({ userdata, filedata }) => {
     setmovetotrashclick(false);
     setdetailclick(false);
     setshowdetail(false);
+    setshareclick(false);
+    setshowshare(false);
   }
 
   const openewtabfordownload = (referenceid) => {
@@ -83,7 +89,10 @@ const Rightclick = ({ userdata, filedata }) => {
               </div>
               <span>Details</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={()=>{
+              setshareclick(true);
+              setshowshare(true);
+            }}>
               <div className='p-1 rounded-full bg-yellow-100'>
                   <Share2 color='#F9AB72' />
               </div>
@@ -110,6 +119,7 @@ const Rightclick = ({ userdata, filedata }) => {
       {showrename && <Rename trigger={renameclick} onclosefunc={onclose} file={filedata} />}
       {showmovetotrash && <Movetotrash trigger={movetotrashclick} onclosefunc={onclose} file={filedata}/>}
       {showdetail && <Detail trigger={detailclick} onclosefunc={onclose} itemdata={filedata} userdata={userdata} />}
+      {showshare && <Share trigger={shareclick} onclosefunc={onclose} file={filedata} userdata={userdata} />}
     </>
   )
 }
